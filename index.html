@@ -59,7 +59,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media (max-width:720px){ .home{flex-direction:column;} }
 
 .split{
-  position:relative;flex:1 1 50%;height:100%;
+  position:relative;flex:1 1 0%;height:100%;
   overflow:hidden;border:0;display:block;
   isolation:isolate;
 }
@@ -73,6 +73,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .split-bg.lashes{background-image:url('assets/hero-lashes.jpg');background-position:center 38%;}
 .split-bg.nails{background-image:url('assets/hero-nails.jpg');background-position:center 45%;}
+.split-bg.cabello{background-image:url('assets/hero-cabello.jpg');background-position:center 40%;}
+/* gold dividers between panels */
+.split:not(:first-child)::after{content:"";position:absolute;z-index:6;left:0;top:0;bottom:0;width:1px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(230,211,164,.45) 30%,rgba(230,211,164,.45) 70%,transparent);}
+@media(max-width:720px){
+  .split:not(:first-child)::after{left:0;right:0;top:0;bottom:auto;width:auto;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(230,211,164,.45) 30%,rgba(230,211,164,.45) 70%,transparent);}
+}
 .split-overlay{
   position:absolute;inset:0;z-index:1;
   background:
@@ -124,7 +132,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   filter:drop-shadow(0 10px 40px rgba(0,0,0,.5));
   animation:logoIn 1.2s cubic-bezier(.2,.7,.2,1) both;
 }
-@media(max-width:720px){ .home-logo{width:clamp(150px,42vw,210px);} }
+@media(max-width:720px){ .home-logo{top:7%;transform:translate(-50%,0);width:clamp(120px,30vw,160px);}
+  @keyframes logoIn{from{opacity:0;transform:translate(-50%,0) scale(.9);}to{opacity:1;transform:translate(-50%,0) scale(1);}} }
 @keyframes logoIn{from{opacity:0;transform:translate(-50%,-50%) scale(.9);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
 .home-tag{
   position:absolute;z-index:5;left:50%;bottom:5.2vh;transform:translateX(-50%);
@@ -132,7 +141,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;font-weight:300;
   white-space:nowrap;
 }
-.home-seam{
+.home-seam{display:none;
   position:absolute;z-index:4;left:50%;top:0;bottom:0;width:1px;
   background:linear-gradient(180deg,transparent,rgba(230,211,164,.5) 30%,rgba(230,211,164,.5) 70%,transparent);
   transform:translateX(-50%);pointer-events:none;
@@ -403,6 +412,36 @@ window.MB = {
         prices: [ ["Manos y pies", "55.000"], ["Manos", "30.000"], ["Manos semi + pies tradicional", "45.000"] ] },
     ],
   },
+
+  // ---------- CABELLO ----------
+  cabello: {
+    intro: "Cuidamos tu cabello de principio a fin: cortes que favorecen, peinados con caída impecable, color a medida y tratamientos que devuelven la salud y el brillo.",
+    groups: [
+      {
+        id: "estilismo",
+        title: "Corte & peinado",
+        twoPrice: false,
+        items: [
+          { name: "Corte",                 desc: "Diseño según tu rostro y estilo.",            price: "70.000", from: true },
+          { name: "Cepillado",             desc: "Caída suave y con movimiento.",               price: "35.000" },
+          { name: "Planchado",             desc: "Liso pulido de larga duración.",              price: "35.000" },
+          { name: "Cepillado + planchado", desc: "Volumen en la raíz, puntas selladas.",        price: "50.000" },
+          { name: "Ondas",                 desc: "Cepillado o planchado con ondas marcadas.",   price: "28.000", from: true },
+          { name: "Hidratación capilar",   desc: "Tratamiento que repara y aporta brillo.",     price: "80.000" },
+        ],
+      },
+      {
+        id: "color",
+        title: "Color & tratamientos",
+        twoPrice: false,
+        items: [
+          { name: "Tinte — 1 tubo",   desc: "Color uniforme, raíz o cabello corto.",       price: "30.000" },
+          { name: "Tinte — 2 tubos",  desc: "Cobertura total para cabello largo o abundante.", price: "40.000" },
+          { name: "Alisado orgánico", desc: "Lacio duradero con activos de bajo impacto.",  price: "200.000", from: true },
+        ],
+      },
+    ],
+  },
 };
 </script>
 
@@ -443,8 +482,8 @@ function Home({ go }){
   return (
     <div className="home view">
       <Split side="left" title="Pestañas" sub="Mirada a medida" bg="lashes" onOpen={()=>go('lashes')} />
+      <Split side="mid" title="Cabello" sub="Estilo & color" bg="cabello" onOpen={()=>go('cabello')} />
       <Split side="right" title="Uñas" sub="Manos & pies de lujo" bg="nails" onOpen={()=>go('nails')} />
-      <div className="home-seam"></div>
       <img className="home-logo" src="assets/logo-light.png" alt="Magic Beauty" />
       <div className="home-tag">Estética premium · Jamundí · Desde 2016</div>
     </div>
@@ -501,7 +540,7 @@ function SimpleRow({ item }){
         <div className="svc-desc">{item.desc}</div>
       </div>
       <div className="price-set">
-        <Price label="Precio" value={item.price} />
+        <Price label={item.from ? "Desde" : "Precio"} value={item.price} />
       </div>
     </div>
   );
@@ -522,9 +561,13 @@ function MultiRow({ item }){
 }
 
 function CTA({ kind }){
-  const bg = kind === 'lashes' ? 'assets/tex-lashes.jpg' : 'assets/tex-nails.jpg';
+  const bg = kind === 'lashes' ? 'assets/tex-lashes.jpg'
+    : kind === 'cabello' ? 'assets/tex-cabello.jpg'
+    : 'assets/tex-nails.jpg';
   const msg = kind === 'lashes'
     ? 'Hola Magic Beauty, quiero agendar un servicio de pestañas ✨'
+    : kind === 'cabello'
+    ? 'Hola Magic Beauty, quiero agendar un servicio de cabello 💇'
     : 'Hola Magic Beauty, quiero agendar un servicio de uñas 💅';
   const c = window.MB.contact;
   return (
@@ -655,11 +698,51 @@ function Nails({ go }){
   );
 }
 
+/* ---------------- CABELLO ---------------- */
+function Cabello({ go }){
+  const d = window.MB.cabello;
+  return (
+    <div className="landing view">
+      <TopBar go={go} />
+      <section className="l-hero">
+        <div>
+          <div className="kicker l-hero-kicker">Magic Beauty — Cabello</div>
+          <h1 className="serif">Cabello</h1>
+          <div className="l-hero-sub">Estilo, color y cuidado en cada hebra.</div>
+          <p className="l-hero-intro">{d.intro}</p>
+          <div className="unisex-badge"><span className="dot"></span>Para ella y para él</div>
+        </div>
+        <div className="l-hero-media">
+          <div className="l-hero-frame"></div>
+          <img className="l-hero-img" src="assets/hero-cabello.jpg" alt="Cabello Magic Beauty" />
+        </div>
+      </section>
+
+      <PriceNote />
+
+      <div className="services">
+        {d.groups.map((g)=>(
+          <div className="svc-group" key={g.id}>
+            <div className="svc-head">
+              <h2 className="serif">{g.title}</h2>
+              {g.note && <div className="gnote">{g.note}</div>}
+            </div>
+            {g.items.map((it,i)=>(<SimpleRow item={it} key={i} />))}
+          </div>
+        ))}
+      </div>
+
+      <CTA kind="cabello" />
+      <Footer />
+    </div>
+  );
+}
+
 /* ===================== ROOT APP + ROUTING ===================== */
 function App(){
   const [view, setView] = useState(() => {
     const h = (window.location.hash || '').replace('#','');
-    return ['lashes','nails'].includes(h) ? h : 'home';
+    return ['lashes','nails','cabello'].includes(h) ? h : 'home';
   });
 
   const go = (v) => {
@@ -671,7 +754,7 @@ function App(){
   React.useEffect(() => {
     const onPop = () => {
       const h = (window.location.hash || '').replace('#','');
-      setView(['lashes','nails'].includes(h) ? h : 'home');
+      setView(['lashes','nails','cabello'].includes(h) ? h : 'home');
     };
     window.addEventListener('hashchange', onPop);
     return () => window.removeEventListener('hashchange', onPop);
@@ -684,6 +767,7 @@ function App(){
   let screen;
   if (view === 'lashes') screen = <Lashes go={go} key="lashes" />;
   else if (view === 'nails') screen = <Nails go={go} key="nails" />;
+  else if (view === 'cabello') screen = <Cabello go={go} key="cabello" />;
   else screen = <Home go={go} key="home" />;
 
   return screen;

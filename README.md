@@ -16,20 +16,21 @@ site/
     └── logo-light.png
 ```
 
+> El código (React) está incrustado dentro de `index.html`, así que el sitio
+> funciona tanto abriéndolo con doble clic en local como servido en Vercel.
+
 ## Desplegar en Vercel
 
 1. Sube esta carpeta a un repositorio de GitHub.
 2. En Vercel: **Add New → Project → Import** el repositorio.
 3. Framework Preset: **Other** (es un sitio estático, sin build).
-   - Build Command: _(vacío)_
-   - Output Directory: _(vacío / raíz)_
+   - Build Command: *(vacío)*
+   - Output Directory: *(vacío / raíz)*
 4. Deploy. Vercel te dará una URL `*.vercel.app`.
 
 ### Si el repo tiene el contenido dentro de `site/`
-
 En Vercel → Settings → **Root Directory** = `site`.
 (O sube el contenido de `site/` a la raíz del repo.)
 
 ## Dominio propio
-
 Vercel → tu proyecto → **Settings → Domains → Add** y sigue los registros DNS que te indique.
