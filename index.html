@@ -135,11 +135,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @keyframes logoIn{from{opacity:0;transform:translateX(-50%) scale(.92);}to{opacity:1;transform:translateX(-50%) scale(1);}}
 @media(max-width:720px){
   .home{flex-direction:column;align-items:stretch;}
-  .home-logo{position:static;align-self:center;order:-1;top:auto;transform:none;
-    margin:2.6vh 0 1vh;width:clamp(96px,24vw,124px);animation-name:logoFade;}
+  .home-logo{position:static;align-self:center;order:-2;top:auto;transform:none;
+    margin:2.6vh 0 .6vh;width:clamp(96px,24vw,124px);animation-name:logoFade;}
   .split .split-content{padding-bottom:0;justify-content:center;}
-  .home-tag{position:static;order:99;align-self:center;left:auto;bottom:auto;transform:none;
-    margin:1vh 0 2.4vh;white-space:normal;text-align:center;}
+  .home-tag{position:static;order:-1;align-self:center;left:auto;bottom:auto;transform:none;
+    margin:0 0 2.2vh;white-space:normal;text-align:center;}
 }
 @keyframes logoFade{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
 .home-tag{
