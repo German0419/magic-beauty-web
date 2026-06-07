@@ -125,16 +125,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 /* center logo */
 .home-logo{
-  position:absolute;z-index:5;left:50%;top:50%;
-  transform:translate(-50%,-50%);
+  position:absolute;z-index:5;left:50%;top:5.2vh;
+  transform:translateX(-50%);
   width:clamp(140px,14vw,210px);
   pointer-events:none;
   filter:drop-shadow(0 10px 40px rgba(0,0,0,.5));
   animation:logoIn 1.2s cubic-bezier(.2,.7,.2,1) both;
 }
-@media(max-width:720px){ .home-logo{top:7%;transform:translate(-50%,0);width:clamp(120px,30vw,160px);}
-  @keyframes logoIn{from{opacity:0;transform:translate(-50%,0) scale(.9);}to{opacity:1;transform:translate(-50%,0) scale(1);}} }
-@keyframes logoIn{from{opacity:0;transform:translate(-50%,-50%) scale(.9);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
+@keyframes logoIn{from{opacity:0;transform:translateX(-50%) scale(.92);}to{opacity:1;transform:translateX(-50%) scale(1);}}
+@media(max-width:720px){
+  .home{flex-direction:column;align-items:stretch;}
+  .home-logo{position:static;align-self:center;order:-1;top:auto;transform:none;
+    margin:2.6vh 0 1vh;width:clamp(96px,24vw,124px);animation-name:logoFade;}
+  .split .split-content{padding-bottom:0;justify-content:center;}
+  .home-tag{position:static;order:99;align-self:center;left:auto;bottom:auto;transform:none;
+    margin:1vh 0 2.4vh;white-space:normal;text-align:center;}
+}
+@keyframes logoFade{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
 .home-tag{
   position:absolute;z-index:5;left:50%;bottom:5.2vh;transform:translateX(-50%);
   pointer-events:none;color:rgba(255,253,249,.7);
