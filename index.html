@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Magic Beauty — Estética Premium · Jamundí</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --cream:#F5EFE6;
+  --cream-2:#EFE7D9;
+  --cream-3:#E8DECB;
+  --ink:#29251F;
+  --ink-2:#4A4339;
+  --muted:#8C8273;
+  --line:#E3D8C4;
+  --gold:#C29A4D;
+  --gold-deep:#9B7733;
+  --gold-soft:#E6D3A4;
+  --white:#FFFDF9;
+  --serif:'Cormorant Garamond', Georgia, serif;
+  --sans:'Jost', system-ui, -apple-system, sans-serif;
+  --blur:5px;
+  --overlay:0.42;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--cream);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+::selection{background:var(--gold-soft);color:var(--ink);}
+
+.kicker{
+  font-family:var(--sans);
+  font-weight:500;
+  font-size:.72rem;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.serif{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:.005em;}
+
+/* ============ APP / ROUTING ============ */
+#app{min-height:100vh;}
+.view{animation:viewIn .7s cubic-bezier(.2,.7,.2,1) both;}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+
+/* ============ HOME — 50/50 SPLIT ============ */
+.home{position:fixed;inset:0;display:flex;overflow:hidden;background:#15110d;}
+@media (max-width:720px){ .home{flex-direction:column;} }
+
+.split{
+  position:relative;flex:1 1 50%;height:100%;
+  overflow:hidden;border:0;display:block;
+  isolation:isolate;
+}
+.split-bg{
+  position:absolute;inset:-4%;
+  background-size:cover;background-position:center;
+  filter:blur(var(--blur)) brightness(.82) saturate(.92);
+  transform:scale(1.06);
+  transition:transform 1.1s cubic-bezier(.2,.7,.2,1), filter .6s ease;
+  will-change:transform;
+}
+.split-bg.lashes{background-image:url('assets/hero-lashes.jpg');background-position:center 38%;}
+.split-bg.nails{background-image:url('assets/hero-nails.jpg');background-position:center 45%;}
+.split-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(120% 90% at 50% 40%, rgba(20,15,10,0) 35%, rgba(20,15,10,.55) 100%),
+    linear-gradient(180deg, rgba(20,15,10,.35), rgba(20,15,10,.55));
+  opacity:var(--overlay);
+  transition:opacity .5s ease;
+}
+.split:hover .split-bg, .split:focus-visible .split-bg{transform:scale(1.13);}
+.split:hover .split-overlay, .split:focus-visible .split-overlay{opacity:calc(var(--overlay) + 0.22);}
+.split:focus-visible{outline:2px solid var(--gold-soft);outline-offset:-6px;}
+
+.split-content{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:var(--white);padding:6vh 8% 0;
+  pointer-events:none;
+}
+.split .split-content{justify-content:center;padding-bottom:12vh;}
+@media(min-width:721px){
+  .split .split-content{justify-content:flex-end;padding:0 8% 13vh;}
+}
+.split-title{
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(3.2rem,7vw,6.2rem);line-height:.95;
+  letter-spacing:.01em;
+  text-shadow:0 6px 40px rgba(0,0,0,.45);
+}
+.split-sub{
+  margin-top:1.1rem;font-weight:300;
+  font-size:clamp(.82rem,1.3vw,1rem);letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(255,253,249,.92);
+}
+.split-cta{
+  margin-top:2.2rem;display:inline-flex;align-items:center;gap:.7rem;
+  font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:500;
+  color:var(--gold-soft);
+  opacity:.85;transition:opacity .4s, gap .4s;
+}
+.split:hover .split-cta{opacity:1;gap:1.1rem;}
+.split-cta .ln{display:inline-block;width:34px;height:1px;background:var(--gold-soft);}
+
+/* center logo */
+.home-logo{
+  position:absolute;z-index:5;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:clamp(140px,14vw,210px);
+  pointer-events:none;
+  filter:drop-shadow(0 10px 40px rgba(0,0,0,.5));
+  animation:logoIn 1.2s cubic-bezier(.2,.7,.2,1) both;
+}
+@media(max-width:720px){ .home-logo{width:clamp(150px,42vw,210px);} }
+@keyframes logoIn{from{opacity:0;transform:translate(-50%,-50%) scale(.9);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
+.home-tag{
+  position:absolute;z-index:5;left:50%;bottom:5.2vh;transform:translateX(-50%);
+  pointer-events:none;color:rgba(255,253,249,.7);
+  font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;font-weight:300;
+  white-space:nowrap;
+}
+.home-seam{
+  position:absolute;z-index:4;left:50%;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(230,211,164,.5) 30%,rgba(230,211,164,.5) 70%,transparent);
+  transform:translateX(-50%);pointer-events:none;
+}
+@media(max-width:720px){
+  .home-seam{left:0;right:0;top:50%;bottom:auto;width:auto;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(230,211,164,.5) 30%,rgba(230,211,164,.5) 70%,transparent);}
+}
+
+/* ============ LANDING SHARED ============ */
+.landing{min-height:100vh;background:var(--cream);}
+.topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:0 clamp(1.1rem,4vw,2.6rem);height:66px;
+  background:rgba(245,239,230,.82);
+  backdrop-filter:blur(14px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+}
+.back-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--ink-2);
+  transition:color .3s, gap .3s;
+}
+.back-btn:hover{color:var(--gold-deep);gap:.9rem;}
+.back-btn .ar{font-size:1rem;line-height:1;}
+.topbar-logo{height:34px;width:auto;}
+.wa-mini{
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.6rem 1.1rem;border:1px solid var(--gold);border-radius:999px;
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:var(--gold-deep);
+  transition:background .3s,color .3s,transform .3s;
+}
+.wa-mini:hover{background:var(--gold);color:var(--white);}
+.wa-mini svg{width:14px;height:14px;}
+@media(max-width:560px){ .wa-mini span{display:none;} .wa-mini{padding:.6rem;} }
+
+/* hero */
+.l-hero{
+  position:relative;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,5rem);
+  align-items:center;
+  padding:clamp(3.5rem,8vw,7rem) clamp(1.4rem,6vw,5rem) clamp(2.5rem,5vw,4rem);
+  max-width:1320px;margin:0 auto;
+}
+@media(max-width:880px){ .l-hero{grid-template-columns:1fr;gap:2.4rem;} }
+.l-hero-kicker{margin-bottom:1.5rem;}
+.l-hero h1{
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(4rem,11vw,9rem);line-height:.9;letter-spacing:.01em;color:var(--ink);
+}
+.l-hero h1 em{font-style:italic;color:var(--gold-deep);}
+.l-hero-sub{
+  margin-top:1.4rem;font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:clamp(1.3rem,2.6vw,1.9rem);color:var(--ink-2);line-height:1.25;
+}
+.l-hero-intro{
+  margin-top:1.6rem;max-width:46ch;font-weight:300;font-size:1.02rem;line-height:1.7;color:var(--ink-2);
+  text-wrap:pretty;
+}
+.unisex-badge{
+  margin-top:1.8rem;display:inline-flex;align-items:center;gap:.7rem;
+  padding:.5rem .95rem;border:1px solid var(--line);border-radius:999px;background:var(--white);
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--muted);
+}
+.unisex-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+
+.l-hero-media{position:relative;}
+.l-hero-img{
+  width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:2px;
+  box-shadow:0 30px 70px -30px rgba(41,37,31,.5);
+  filter:saturate(.96);
+}
+.l-hero-media::after{
+  content:"";position:absolute;inset:0;border:1px solid rgba(255,253,249,.3);
+  margin:14px;pointer-events:none;
+}
+.l-hero-frame{
+  position:absolute;top:-14px;left:-14px;right:18px;bottom:18px;
+  border:1px solid var(--gold);border-radius:2px;z-index:-1;
+}
+
+/* services */
+.services{max-width:1320px;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1.4rem,6vw,5rem) clamp(4rem,9vw,8rem);}
+.svc-group{margin-top:clamp(3rem,6vw,5rem);}
+.svc-group:first-child{margin-top:0;}
+.svc-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
+  padding-bottom:1.3rem;margin-bottom:.4rem;border-bottom:1px solid var(--line);
+}
+.svc-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,4vw,2.9rem);color:var(--ink);}
+.svc-head .gnote{font-size:.74rem;color:var(--muted);font-weight:300;letter-spacing:.04em;text-align:right;}
+
+.svc-row{
+  display:grid;grid-template-columns:1fr auto;gap:1.5rem 2rem;align-items:center;
+  padding:1.5rem .4rem;border-bottom:1px solid var(--line);
+  transition:background .35s, padding-left .35s;
+}
+.svc-row:hover{background:linear-gradient(90deg, rgba(230,211,164,.16), transparent 80%);padding-left:1.1rem;}
+.svc-name{font-family:var(--serif);font-weight:500;font-size:1.55rem;color:var(--ink);line-height:1.1;}
+.svc-desc{margin-top:.35rem;font-weight:300;font-size:.92rem;color:var(--muted);line-height:1.5;max-width:48ch;}
+.price-set{display:flex;gap:1.8rem;justify-content:flex-end;flex-wrap:wrap;}
+.price-cell{text-align:right;min-width:74px;}
+.price-cell .pl{display:block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.price-cell .pv{font-family:var(--serif);font-weight:500;font-size:1.5rem;color:var(--gold-deep);white-space:nowrap;}
+.price-cell .pv small{font-size:.62em;color:var(--muted);font-family:var(--sans);font-weight:400;}
+@media(max-width:620px){
+  .svc-row{grid-template-columns:1fr;gap:1rem;}
+  .price-set{justify-content:flex-start;gap:1.4rem;}
+  .price-cell{text-align:left;}
+}
+
+/* nails switch */
+.switch-wrap{display:flex;justify-content:center;padding:clamp(1rem,3vw,2rem) 1rem 0;}
+.switch{
+  position:relative;display:inline-flex;padding:5px;border-radius:999px;
+  background:var(--cream-3);border:1px solid var(--line);
+}
+.switch-thumb{
+  position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);
+  border-radius:999px;background:var(--white);
+  box-shadow:0 6px 18px -8px rgba(41,37,31,.4);
+  transition:transform .42s cubic-bezier(.3,.8,.3,1);
+}
+.switch.caballero .switch-thumb{transform:translateX(100%);}
+.switch button{
+  position:relative;z-index:1;padding:.75rem 2.2rem;border-radius:999px;
+  font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;
+  color:var(--muted);transition:color .35s;min-width:140px;
+}
+.switch button.active{color:var(--ink);}
+.switch button.active .sg{color:var(--gold-deep);}
+@media(max-width:480px){ .switch button{padding:.7rem 1.3rem;min-width:120px;} }
+
+.nail-list{animation:fadeSwap .45s ease both;}
+@keyframes fadeSwap{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* CTA */
+.cta{
+  position:relative;text-align:center;overflow:hidden;
+  padding:clamp(4rem,9vw,8rem) clamp(1.4rem,6vw,5rem);
+  background:var(--ink);color:var(--white);
+}
+.cta-bg{position:absolute;inset:0;background-size:cover;background-position:center;
+  filter:blur(3px) brightness(.4) saturate(.9);transform:scale(1.08);opacity:.5;}
+.cta-inner{position:relative;z-index:1;max-width:680px;margin:0 auto;}
+.cta .kicker{color:var(--gold-soft);}
+.cta h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1;margin:1.2rem 0 1rem;}
+.cta p{font-weight:300;color:rgba(255,253,249,.78);font-size:1.05rem;line-height:1.6;max-width:42ch;margin:0 auto 2.4rem;}
+.wa-btn{
+  display:inline-flex;align-items:center;gap:.85rem;
+  padding:1.05rem 2.4rem;border-radius:999px;
+  background:var(--gold);color:#1c1710;
+  font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, background .35s;
+  box-shadow:0 14px 34px -12px rgba(194,154,77,.7);
+}
+.wa-btn:hover{transform:translateY(-3px);box-shadow:0 22px 44px -14px rgba(194,154,77,.85);background:var(--gold-soft);}
+.wa-btn svg{width:20px;height:20px;}
+.cta-meta{margin-top:2.6rem;display:flex;gap:2.4rem;justify-content:center;flex-wrap:wrap;
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,253,249,.6);}
+.cta-meta a:hover{color:var(--gold-soft);}
+.cta-meta .sep{color:var(--gold);}
+
+/* footer mini */
+.l-foot{padding:2.4rem;text-align:center;background:var(--cream);border-top:1px solid var(--line);}
+.l-foot img{height:42px;margin:0 auto 1rem;opacity:.85;}
+.l-foot p{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);}
+
+/* intro note about prices */
+.price-note{max-width:1320px;margin:0 auto;padding:0 clamp(1.4rem,6vw,5rem);}
+.price-note span{
+  display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);
+  font-weight:300;letter-spacing:.04em;
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Datos del catálogo -->
+<script>
+/* Magic Beauty — catalog data (prices in Colombian pesos, COP) */
+window.MB = {
+  contact: {
+    whatsapp: "573005707810",
+    whatsappDisplay: "300 570 7810",
+    instagram: "magic_beauty_jdi",
+    city: "Jamundí",
+    since: "2016",
+  },
+
+  // ---------- PESTAÑAS ----------
+  lashes: {
+    intro: "Una mirada que habla por ti. Diseñamos cada juego de pestañas a la medida de tus rasgos, con técnica precisa y un acabado impecable que dura.",
+    groups: [
+      {
+        id: "ext",
+        title: "Extensiones de pestañas",
+        note: "Precio de montura y retoque (3–4 semanas).",
+        twoPrice: true,
+        items: [
+          { name: "Efecto Clásico",      desc: "Una extensión por pestaña. Natural y definido.",        montura: "80.000",  retoque: "40.000" },
+          { name: "Efecto Combinado",    desc: "Mezcla de clásico y volumen. Densidad equilibrada.",    montura: "110.000", retoque: "55.000" },
+          { name: "Efecto Tecnológico",  desc: "Mapeo avanzado para una mirada abierta y luminosa.",    montura: "130.000", retoque: "65.000" },
+          { name: "Volumen Ruso",        desc: "Abanicos ligeros. Máxima densidad, peso pluma.",         montura: "130.000", retoque: "65.000" },
+        ],
+      },
+      {
+        id: "mirada",
+        title: "Mirada & cejas",
+        twoPrice: false,
+        items: [
+          { name: "Lifting de pestañas",     desc: "Curvatura y elevación de tu pestaña natural.",   price: "75.000" },
+          { name: "Pestañas punto a punto",  desc: "Aplicación pelo a pelo, efecto sutil.",          price: "35.000" },
+          { name: "Laminado de cejas",       desc: "Cejas peinadas, fijas y con forma todo el día.", price: "75.000" },
+          { name: "Diseño de cejas",         desc: "Visagismo y depilación de precisión.",           price: "35.000" },
+        ],
+      },
+      {
+        id: "cera",
+        title: "Cera & hilo",
+        twoPrice: false,
+        items: [
+          { name: "Cejas — cera",   desc: "Perfilado limpio con cera tibia.",      price: "15.000" },
+          { name: "Bigote — cera",  desc: "Acabado suave en segundos.",            price: "12.000" },
+          { name: "Cejas — hilo",   desc: "Técnica de hilo, trazo exacto.",        price: "18.000" },
+          { name: "Bigote — hilo",  desc: "Depilación delicada con hilo.",         price: "15.000" },
+        ],
+      },
+    ],
+  },
+
+  // ---------- UÑAS ----------
+  nails: {
+    intro: "Manos y pies que se sienten como un lujo cotidiano. Trabajo prolijo, productos de alta gama y diseños a medida para ella y para él.",
+    dama: [
+      { name: "Tradicional",        desc: "Esmaltado clásico de larga duración.",
+        prices: [ ["Manos y pies", "35.000"], ["Manos o pies", "22.000"] ] },
+      { name: "Semipermanente",     desc: "Color intenso, brillo que no se rinde.",
+        prices: [ ["Manos y pies", "75.000"], ["Manos", "45.000"], ["Pies", "35.000"] ] },
+      { name: "Baño de gel",        desc: "Refuerzo flexible sobre uña natural.",
+        prices: [ ["Manos y pies", "100.000"], ["Manos", "60.000"], ["Pies", "45.000"] ] },
+      { name: "Acrílico / Polygel", desc: "Estructura y longitud a tu medida.",
+        prices: [ ["Montura", "100.000"], ["Baby boomer", "110.000"], ["Retoque", "65.000"] ] },
+      { name: "Baño de acrílico",   desc: "Resistencia extra sobre uña natural.",
+        prices: [ ["Manos", "70.000"] ] },
+      { name: "Dipping",            desc: "Inmersión en polvo, secado sin lámpara.",
+        prices: [ ["Manos", "60.000"] ] },
+      { name: "Press On",           desc: "Uñas listas, aplicación express.",
+        prices: [ ["Montura", "75.000"], ["Retoque", "65.000"] ] },
+      { name: "Limpieza",           desc: "Retiro y preparación de la uña.",
+        prices: [ ["Manos o pies", "12.000"] ] },
+    ],
+    caballero: [
+      { name: "Tradicional",     desc: "Manicure y pedicure prolijo, acabado natural.",
+        prices: [ ["Manos y pies", "30.000"], ["Manos o pies", "18.000"] ] },
+      { name: "Semipermanente",  desc: "Brillo discreto y resistente.",
+        prices: [ ["Manos y pies", "55.000"], ["Manos", "30.000"], ["Manos semi + pies tradicional", "45.000"] ] },
+    ],
+  },
+};
+</script>
+
+<!-- App (React + Babel en línea — sin archivos externos) -->
+<script type="text/babel" data-presets="react">
+/* Magic Beauty — Home: 50/50 split hero */
+const { useState } = React;
+
+function WAIcon({ style }){
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" style={style} aria-hidden="true">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.16c-.25.69-1.45 1.32-2 1.4-.53.08-1.18.11-1.9-.12-.44-.14-1-.32-1.72-.63-3.03-1.31-5.01-4.36-5.16-4.56-.15-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.53.28-.3.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.69.53.25.61.86 2.1.94 2.25.08.15.13.33.03.53-.1.2-.15.33-.3.5-.15.18-.32.39-.45.53-.15.15-.31.31-.13.61.18.3.79 1.3 1.69 2.11 1.16 1.03 2.14 1.35 2.44 1.5.3.15.48.13.66-.08.18-.2.76-.89.96-1.19.2-.3.41-.25.69-.15.28.1 1.76.83 2.06.98.3.15.5.22.58.35.07.13.07.74-.18 1.43z"/>
+    </svg>
+  );
+}
+
+function Split({ side, title, sub, bg, onOpen }){
+  const open = () => onOpen();
+  return (
+    <button
+      className={"split " + side}
+      onClick={open}
+      onKeyDown={(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } }}
+      aria-label={"Ver servicios de " + title}
+    >
+      <div className={"split-bg " + bg}></div>
+      <div className="split-overlay"></div>
+      <div className="split-content">
+        <div className="split-title serif">{title}</div>
+        <div className="split-sub">{sub}</div>
+        <div className="split-cta"><span className="ln"></span>Ver servicios</div>
+      </div>
+    </button>
+  );
+}
+
+function Home({ go }){
+  return (
+    <div className="home view">
+      <Split side="left" title="Pestañas" sub="Mirada a medida" bg="lashes" onOpen={()=>go('lashes')} />
+      <Split side="right" title="Uñas" sub="Manos & pies de lujo" bg="nails" onOpen={()=>go('nails')} />
+      <div className="home-seam"></div>
+      <img className="home-logo" src="assets/logo-light.png" alt="Magic Beauty" />
+      <div className="home-tag">Estética premium · Jamundí · Desde 2016</div>
+    </div>
+  );
+}
+
+/* ===================== LANDINGS ===================== */
+const waHref = (msg) =>
+  `https://wa.me/${window.MB.contact.whatsapp}?text=${encodeURIComponent(msg)}`;
+
+function TopBar({ go }){
+  return (
+    <header className="topbar">
+      <button className="back-btn" onClick={()=>go('home')}>
+        <span className="ar">←</span> Inicio
+      </button>
+      <img className="topbar-logo" src="assets/logo-dark.png" alt="Magic Beauty" onClick={()=>go('home')} style={{cursor:'pointer'}} />
+      <a className="wa-mini" href={waHref('Hola Magic Beauty, quiero agendar una cita ✨')} target="_blank" rel="noopener">
+        <WAIcon /> <span>Agendar</span>
+      </a>
+    </header>
+  );
+}
+
+function Price({ label, value }){
+  return (
+    <div className="price-cell">
+      <span className="pl">{label}</span>
+      <span className="pv">${value}</span>
+    </div>
+  );
+}
+
+function ExtRow({ item }){
+  return (
+    <div className="svc-row">
+      <div>
+        <div className="svc-name">{item.name}</div>
+        <div className="svc-desc">{item.desc}</div>
+      </div>
+      <div className="price-set">
+        <Price label="Montura" value={item.montura} />
+        <Price label="Retoque" value={item.retoque} />
+      </div>
+    </div>
+  );
+}
+
+function SimpleRow({ item }){
+  return (
+    <div className="svc-row">
+      <div>
+        <div className="svc-name">{item.name}</div>
+        <div className="svc-desc">{item.desc}</div>
+      </div>
+      <div className="price-set">
+        <Price label="Precio" value={item.price} />
+      </div>
+    </div>
+  );
+}
+
+function MultiRow({ item }){
+  return (
+    <div className="svc-row">
+      <div>
+        <div className="svc-name">{item.name}</div>
+        <div className="svc-desc">{item.desc}</div>
+      </div>
+      <div className="price-set">
+        {item.prices.map(([l,v],i)=>(<Price key={i} label={l} value={v} />))}
+      </div>
+    </div>
+  );
+}
+
+function CTA({ kind }){
+  const bg = kind === 'lashes' ? 'assets/tex-lashes.jpg' : 'assets/tex-nails.jpg';
+  const msg = kind === 'lashes'
+    ? 'Hola Magic Beauty, quiero agendar un servicio de pestañas ✨'
+    : 'Hola Magic Beauty, quiero agendar un servicio de uñas 💅';
+  const c = window.MB.contact;
+  return (
+    <section className="cta">
+      <div className="cta-bg" style={{backgroundImage:`url('${bg}')`}}></div>
+      <div className="cta-inner">
+        <div className="kicker">Tu cita, a un mensaje</div>
+        <h2>Reserva tu experiencia</h2>
+        <p>Diseños a medida, atención sin prisa y un acabado impecable. Escríbenos y agenda tu espacio.</p>
+        <a className="wa-btn" href={waHref(msg)} target="_blank" rel="noopener">
+          <WAIcon /> Agendar por WhatsApp
+        </a>
+        <div className="cta-meta">
+          <a href={waHref(msg)} target="_blank" rel="noopener">{c.whatsappDisplay}</a>
+          <span className="sep">·</span>
+          <a href={`https://instagram.com/${c.instagram}`} target="_blank" rel="noopener">@{c.instagram}</a>
+          <span className="sep">·</span>
+          <span>{c.city}</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer(){
+  return (
+    <footer className="l-foot">
+      <img src="assets/logo-dark.png" alt="Magic Beauty" />
+      <p>Magic Beauty · Estética premium · Jamundí</p>
+    </footer>
+  );
+}
+
+function PriceNote(){
+  return (
+    <div className="price-note"><span>Precios en pesos colombianos (COP). Sujetos a valoración según el diseño y la duración del servicio.</span></div>
+  );
+}
+
+function Lashes({ go }){
+  const d = window.MB.lashes;
+  return (
+    <div className="landing view">
+      <TopBar go={go} />
+      <section className="l-hero">
+        <div>
+          <div className="kicker l-hero-kicker">Magic Beauty — Pestañas</div>
+          <h1 className="serif">Pesta&ntilde;as</h1>
+          <div className="l-hero-sub">Precisión que se nota en cada mirada.</div>
+          <p className="l-hero-intro">{d.intro}</p>
+          <div className="unisex-badge"><span className="dot"></span>Para ella y para él</div>
+        </div>
+        <div className="l-hero-media">
+          <div className="l-hero-frame"></div>
+          <img className="l-hero-img" src="assets/hero-lashes.jpg" alt="Pestañas Magic Beauty" />
+        </div>
+      </section>
+
+      <PriceNote />
+
+      <div className="services">
+        {d.groups.map((g)=>(
+          <div className="svc-group" key={g.id}>
+            <div className="svc-head">
+              <h2 className="serif">{g.title}</h2>
+              {g.note && <div className="gnote">{g.note}</div>}
+            </div>
+            {g.items.map((it,i)=>(
+              g.twoPrice ? <ExtRow item={it} key={i} /> : <SimpleRow item={it} key={i} />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <CTA kind="lashes" />
+      <Footer />
+    </div>
+  );
+}
+
+function Nails({ go }){
+  const d = window.MB.nails;
+  const [tab, setTab] = useState('dama');
+  const list = tab === 'dama' ? d.dama : d.caballero;
+  return (
+    <div className="landing view">
+      <TopBar go={go} />
+      <section className="l-hero">
+        <div>
+          <div className="kicker l-hero-kicker">Magic Beauty — Uñas</div>
+          <h1 className="serif">U&ntilde;as</h1>
+          <div className="l-hero-sub">Lujo cotidiano en manos y pies.</div>
+          <p className="l-hero-intro">{d.intro}</p>
+        </div>
+        <div className="l-hero-media">
+          <div className="l-hero-frame"></div>
+          <img className="l-hero-img" src="assets/hero-nails.jpg" alt="Uñas Magic Beauty" />
+        </div>
+      </section>
+
+      <div className="switch-wrap">
+        <div className={"switch " + tab}>
+          <div className="switch-thumb"></div>
+          <button className={tab==='dama'?'active':''} onClick={()=>setTab('dama')}>
+            <span className="sg">Dama</span>
+          </button>
+          <button className={tab==='caballero'?'active':''} onClick={()=>setTab('caballero')}>
+            <span className="sg">Caballero</span>
+          </button>
+        </div>
+      </div>
+
+      <PriceNote />
+
+      <div className="services">
+        <div className="svc-group nail-list" key={tab}>
+          <div className="svc-head">
+            <h2 className="serif">{tab==='dama' ? 'Uñas Dama' : 'Uñas Caballero'}</h2>
+            <div className="gnote">{tab==='dama' ? 'Manicure, pedicure y diseño' : 'Manicure & pedicure prolijo'}</div>
+          </div>
+          {list.map((it,i)=>(<MultiRow item={it} key={i} />))}
+        </div>
+      </div>
+
+      <CTA kind="nails" />
+      <Footer />
+    </div>
+  );
+}
+
+/* ===================== ROOT APP + ROUTING ===================== */
+function App(){
+  const [view, setView] = useState(() => {
+    const h = (window.location.hash || '').replace('#','');
+    return ['lashes','nails'].includes(h) ? h : 'home';
+  });
+
+  const go = (v) => {
+    setView(v);
+    window.location.hash = v === 'home' ? '' : v;
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
+  React.useEffect(() => {
+    const onPop = () => {
+      const h = (window.location.hash || '').replace('#','');
+      setView(['lashes','nails'].includes(h) ? h : 'home');
+    };
+    window.addEventListener('hashchange', onPop);
+    return () => window.removeEventListener('hashchange', onPop);
+  }, []);
+
+  React.useEffect(() => {
+    document.body.style.overflow = view === 'home' ? 'hidden' : 'auto';
+  }, [view]);
+
+  let screen;
+  if (view === 'lashes') screen = <Lashes go={go} key="lashes" />;
+  else if (view === 'nails') screen = <Nails go={go} key="nails" />;
+  else screen = <Home go={go} key="home" />;
+
+  return screen;
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+</script>
+</body>
+</html>
